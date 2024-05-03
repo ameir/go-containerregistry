@@ -104,6 +104,7 @@ func (f *fetcher) get(ctx context.Context, ref name.Reference, acceptable []type
 	if err != nil {
 		return nil, err
 	}
+	desc.Platform = &platform
 	return &Descriptor{
 		Reference:  ref,
 		ctx:        ctx,
