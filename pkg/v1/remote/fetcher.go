@@ -105,12 +105,11 @@ func (f *fetcher) get(ctx context.Context, ref name.Reference, acceptable []type
 		return nil, err
 	}
 	return &Descriptor{
-		Reference:   ref,
-		ctx:         ctx,
-		fetcher:     *f,
-		Manifest:    b,
-		Descriptor:  *desc,
-		platformsss: platform,
+		Reference:  ref,
+		ctx:        ctx,
+		fetcher:    *f,
+		Manifest:   b,
+		Descriptor: *desc,
 	}, nil
 }
 
