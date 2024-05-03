@@ -114,7 +114,7 @@ func copyPlatforms(desc *remote.Descriptor, dstRef name.Reference, o Options) er
 		return nil
 	}
 
-	idx := filterIndex(base, o.Platforms)
+	idx := FilterIndex(base, o.Platforms)
 
 	if err := remote.WriteIndex(dstRef, idx, o.Remote...); err != nil {
 		return fmt.Errorf("pushing image %s: %w", dstRef, err)
@@ -122,7 +122,7 @@ func copyPlatforms(desc *remote.Descriptor, dstRef name.Reference, o Options) er
 	return nil
 }
 
-func filterIndex(idx v1.ImageIndex, platforms []v1.Platform) v1.ImageIndex {
+func FilterIndex(idx v1.ImageIndex, platforms []v1.Platform) v1.ImageIndex {
 	matcher := not(satisfiesPlatforms(platforms))
 	return mutate.RemoveManifests(idx, matcher)
 }
