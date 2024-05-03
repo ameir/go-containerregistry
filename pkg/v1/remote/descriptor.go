@@ -47,12 +47,12 @@ type Descriptor struct {
 	fetcher fetcher
 	v1.Descriptor
 
-	ref      name.Reference
-	Manifest []byte
-	ctx      context.Context
+	Reference name.Reference
+	Manifest  []byte
+	ctx       context.Context
 
 	// So we can share this implementation with Image.
-	platform v1.Platform
+	platformsss v1.Platform
 }
 
 func (d *Descriptor) toDesc() v1.Descriptor {
@@ -113,7 +113,10 @@ func (d *Descriptor) Image() (v1.Image, error) {
 		return nil, newErrSchema1(d.MediaType)
 	case types.OCIImageIndex, types.DockerManifestList:
 		// We want an image but the registry has an index, resolve it to an image.
-		return d.remoteIndex().imageByPlatform(d.platform)
+		fmt.Println("ok", d.platformsss)
+		fmt.Println("ok", d.Descriptor.Platform)
+
+		return d.remoteIndex().imageByPlatform(d.platformsss)
 	case types.OCIManifestSchema1, types.DockerManifestSchema2:
 		// These are expected. Enumerated here to allow a default case.
 	default:
@@ -130,7 +133,7 @@ func (d *Descriptor) Image() (v1.Image, error) {
 	}
 	return &mountableImage{
 		Image:     imgCore,
-		Reference: d.ref,
+		Reference: d.Reference,
 	}, nil
 }
 
@@ -141,7 +144,7 @@ func (d *Descriptor) Image() (v1.Image, error) {
 // This is separate from Image() to avoid a backward incompatible change for callers expecting ErrSchema1.
 func (d *Descriptor) Schema1() (v1.Image, error) {
 	i := &schema1{
-		ref:        d.ref,
+		ref:        d.Reference,
 		fetcher:    d.fetcher,
 		ctx:        d.ctx,
 		manifest:   d.Manifest,
@@ -151,7 +154,7 @@ func (d *Descriptor) Schema1() (v1.Image, error) {
 
 	return &mountableImage{
 		Image:     i,
-		Reference: d.ref,
+		Reference: d.Reference,
 	}, nil
 }
 
@@ -177,7 +180,7 @@ func (d *Descriptor) ImageIndex() (v1.ImageIndex, error) {
 
 func (d *Descriptor) remoteImage() *remoteImage {
 	return &remoteImage{
-		ref:        d.ref,
+		ref:        d.Reference,
 		ctx:        d.ctx,
 		fetcher:    d.fetcher,
 		manifest:   d.Manifest,
@@ -188,7 +191,7 @@ func (d *Descriptor) remoteImage() *remoteImage {
 
 func (d *Descriptor) remoteIndex() *remoteIndex {
 	return &remoteIndex{
-		ref:        d.ref,
+		ref:        d.Reference,
 		ctx:        d.ctx,
 		fetcher:    d.fetcher,
 		manifest:   d.Manifest,

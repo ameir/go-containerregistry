@@ -231,12 +231,12 @@ func (r *remoteIndex) childDescriptor(child v1.Descriptor, platform v1.Platform)
 	}
 
 	return &Descriptor{
-		ref:        ref,
-		ctx:        r.ctx,
-		fetcher:    r.fetcher,
-		Manifest:   manifest,
-		Descriptor: child,
-		platform:   platform,
+		Reference:   ref,
+		ctx:         r.ctx,
+		fetcher:     r.fetcher,
+		Manifest:    manifest,
+		Descriptor:  child,
+		platformsss: platform,
 	}, nil
 }
 
