@@ -77,21 +77,10 @@ func Copy(src, dst string, opt ...Option) error {
 		return fmt.Errorf("fetching %q: %w", src, err)
 	}
 
-	/*for _, platform := range o.Platforms {
-		fmt.Println("copying image for platform", platform)
-		desc.Platform = &platform
-		img, err := desc.Image()
-		if err != nil {
-			return err
-		}
-		pusher.Push(o.ctx, dstRef, img)
-	}*/
-
 	switch len(o.Platforms) {
 	case 0:
 		return pusher.Push(o.ctx, dstRef, desc)
 	case 1:
-		fmt.Println("salam", o.Platforms)
 		desc.Platform = &o.Platforms[0]
 		img, err := desc.Image()
 		if err != nil {
@@ -105,7 +94,6 @@ func Copy(src, dst string, opt ...Option) error {
 }
 
 func copyPlatforms(desc *remote.Descriptor, dstRef name.Reference, o Options) error {
-	fmt.Println(desc.Reference)
 	if !desc.MediaType.IsIndex() {
 		return fmt.Errorf("expected to be an index, got %q", desc.MediaType)
 	}

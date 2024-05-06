@@ -110,7 +110,7 @@ func WithPlatform(platform *v1.Platform) Option {
 	}
 }
 
-// WithPlatforms is an Option to specify the platform.
+// WithPlatforms is an Option to specify the platforms.
 func WithPlatforms(platforms []v1.Platform) Option {
 	return func(o *Options) {
 		o.Platforms = platforms
